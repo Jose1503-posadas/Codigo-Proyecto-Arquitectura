@@ -1,8 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import cors from 'cors';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3001, '0.0.0.0');
+  app.use(cors());
+  await app.listen(3001);
+  console.log('Auth API running on port 3001');
 }
 bootstrap();

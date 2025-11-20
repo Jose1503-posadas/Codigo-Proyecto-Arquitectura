@@ -2,26 +2,40 @@ version: '3.9'
 
 services:
   frontend:
-    build: ./presentacion/portal-web
+    build:
+      context: ./presentacion/portal-web
+      dockerfile: Dockerfile
+    environment:
+      NEXT_PUBLIC_API_URL: "http://backend:3001"
     ports:
       - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://backend:3001
     depends_on:
       - backend
+    volumes:
+      - ./presentacion/portal-web:/app
+      - /app/node_modules
+    command: npm run dev
+    networks:
+      - app-network
 
   backend:
-    build: ./aplicacion  # tu carpeta NestJS
+    build: ./aplicacion
     ports:
       - "3001:3001"
     environment:
-      - DATABASE_HOST=postgres
-      - DATABASE_PORT=5432
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=postgres
-      - DATABASE_NAME=erp
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: erp
     depends_on:
       - postgres
+    volumes:
+      - ./aplicacion:/app
+      - /app/node_modules
+    command: npm run start:dev
+    networks:
+      - app-network
 
   postgres:
     image: postgres:16
@@ -34,7 +48,12 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - codigo-proyecto-arquitectura_pg_data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
 volumes:
-  pg_data:
+  codigo-proyecto-arquitectura_pg_data:
+
+networks:
+  app-network:

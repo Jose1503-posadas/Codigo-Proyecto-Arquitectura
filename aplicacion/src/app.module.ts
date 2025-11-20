@@ -1,10 +1,10 @@
+// src/app.module.ts
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AuthController } from './presentation/auth.controller';
 
 @Module({
   imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AuthController], // Aquí pones tu controlador de auth
+  providers: [],                // Vacío si no hay servicios adicionales
 })
 export class AppModule {}
