@@ -1,6 +1,10 @@
 "use client";
 
+import { useState } from "react";
+
+
 const API_URL = "http://localhost:3001";
+
 
 // Función para registrar usuario (igual que tu idea)
 async function registerUser(data: { nombre: string; apellido: string; email: string; password: string }) {
@@ -19,11 +23,18 @@ async function registerUser(data: { nombre: string; apellido: string; email: str
 }
 
 export default function RegisterPage() {
+  const [error, setError] = useState("");   // Estado para errores
+  const [success, setSuccess] = useState(""); // Estado para mensaje de éxito
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  // ✅ Esta era la función que faltaba
+  // Esta era la función que faltaba
   async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const password = formData.get("password")?.toString() || "";
+    const confirmPassword = formData.get("confirmPassword")?.toString() || "";
     const data = {
       nombre: formData.get("name")?.toString() || "",
       apellido: formData.get("lastname")?.toString() || "",
@@ -31,11 +42,20 @@ export default function RegisterPage() {
       password: formData.get("password")?.toString() || "",
     };
 
+     // Verificar que la contraseña y confirmación coincidan
+      if (password !== confirmPassword) {
+        setError("Las contraseñas no coinciden");
+        setSuccess("");
+        return;
+      }
+
     try {
       const result = await registerUser(data);
-      console.log(result.message); // Puedes reemplazar con un feedback visual
+      setSuccess(result.message); // Mostrar mensaje de éxito
+      setError("");               // Limpiar error previo
     } catch (err: any) {
-      console.error(err.message);
+      setError(err.message);      // Mostrar mensaje de error
+      setSuccess("");             // Limpiar mensaje de éxito previo
     }
   }
 
@@ -80,14 +100,56 @@ export default function RegisterPage() {
           <div className="flex-grow border-t"></div>
         </div>
 
+        {/* Mensajes acceso correcto o no*/}
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+        {success && <div className="text-green-500 mb-4">{success}</div>}
+
+
         {/* FORMULARIO */}
         <form onSubmit={handleRegister} className="flex flex-col gap-4">
           <input type="text" name="name" placeholder="Nombre(s)" className="border rounded-lg p-3" />
           <input type="text" name="lastname" placeholder="Apellidos" className="border rounded-lg p-3" />
           <input type="email" name="email" placeholder="Correo electrónico" className="border rounded-lg p-3" />
-          <input type="password" name="password" placeholder="Contraseña" className="border rounded-lg p-3" />
+
+          {/* Password */}
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Contraseña"
+              className="border rounded-lg p-3 w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+            >
+              {showPassword ? "👁️" : "🙈"}
+            </button>
+          </div>
+
+          {/* Confirm Password */}
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Repetir contraseña"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="border rounded-lg p-3 w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+            >
+              {showConfirmPassword ? "👁️" : "🙈"}
+            </button>
+          </div>
+
           <button className="bg-black text-white py-3 rounded-lg">Registrarse</button>
         </form>
+
 
         <div className="mt-6 text-sm">
           ¿Ya tienes una cuenta?{" "}

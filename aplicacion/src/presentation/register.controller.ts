@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Res, HttpStatus } from '@nestjs/common';
-import type { Response } from 'express'; // <-- 'import type' evita errores con isolatedModules
+import type { Response } from 'express';
 import registerUserUseCase from '../application/registerUser.usecase';
 
 interface RegisterBody {
@@ -10,7 +10,7 @@ interface RegisterBody {
 }
 
 @Controller('auth')
-export class AuthController {
+export class RegisterController {
   @Post('register')
   async register(@Body() body: RegisterBody, @Res() res: Response) {
     try {
@@ -21,5 +21,3 @@ export class AuthController {
     }
   }
 }
-
-
