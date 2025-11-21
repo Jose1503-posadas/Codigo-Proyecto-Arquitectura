@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const API_URL = "http://localhost:3001";
 
-// Función para hacer login
+// Función para hacer login tradicional
 async function loginUser(data: { email: string; password: string }) {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
@@ -17,13 +17,22 @@ async function loginUser(data: { email: string; password: string }) {
     const error = await res.json();
     throw new Error(error.error || "Error en login");
   }
-  
+
   return res.json();
+}
+
+// Declarar global para TypeScript
+declare global {
+  interface Window {
+    google: any;
+  }
 }
 
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+
+  // Manejo del login tradicional
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -34,16 +43,51 @@ export default function LoginPage() {
 
     try {
       const result = await loginUser(data);
-      console.log(result); // Aquí podrías guardar token o redirigir
-      //alert(result.message);
-
-      // ✔ Si el login es exitoso → REDIRIGIR AQUÍ
-      router.push("/dashboard")
+      console.log(result);
+      router.push("/dashboard");
     } catch (err: any) {
       console.error(err.message);
       alert(err.message);
     }
   }
+
+  // Función para manejar respuesta de Google
+  async function handleCredentialResponse(response: any) {
+    const idToken = response.credential;
+
+    try {
+      const res = await fetch(`${API_URL}/auth/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: idToken }),
+      });
+
+      const data = await res.json();
+      console.log("Resultado Login Google:", data);
+
+      if (data.email) {
+        router.push("/dashboard");
+      }
+    } catch (err: any) {
+      console.error("Error login Google:", err.message);
+      alert(err.message);
+    }
+  }
+
+  // Inicializar botón de Google
+  useEffect(() => {
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+        callback: handleCredentialResponse,
+      });
+
+      window.google.accounts.id.renderButton(
+        document.getElementById("google-login"),
+        { theme: "outline", size: "large" }
+      );
+    }
+  }, []);
 
   return (
     <div className="flex h-screen">
@@ -52,29 +96,9 @@ export default function LoginPage() {
         <h1 className="text-4xl font-bold mb-3">¡Bienvenido Nuevamente!</h1>
         <p className="text-gray-500 mb-10">Por favor ingresa tus datos</p>
 
-        {/* Boton google */}
-        <div className="flex justify-center ">
-          <button className="gsi-material-button">
-            <div className="gsi-material-button-state"></div>
-            <div className="gsi-material-button-content-wrapper">
-              <div className="gsi-material-button-icon">
-                {/* tu SVG exacto */}
-                <svg
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 48 48"
-                  style={{ display: "block" }}
-                >
-                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-                  <path fill="none" d="M0 0h48v48H0z"></path>
-                </svg>
-              </div>
-              <span className="gsi-material-button-contents">Iniciar Sesion con Google</span>
-            </div>
-          </button>
+        {/* Botón Google */}
+        <div className="flex justify-center mb-4">
+          <div id="google-login"></div>
         </div>
 
         {/* Separación */}
@@ -94,21 +118,21 @@ export default function LoginPage() {
           />
 
           {/* Password */}
-        <div className="relative">
-        <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="Contraseña"
-            className="border rounded-lg p-3 w-full"
-        />
-        <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-        >
-            {showPassword ? "👁️" : "🙈"}
-        </button>
-        </div>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Contraseña"
+              className="border rounded-lg p-3 w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+            >
+              {showPassword ? "👁️" : "🙈"}
+            </button>
+          </div>
 
           <div className="flex justify-between text-sm">
             <label className="flex items-center gap-2"></label>

@@ -6,3 +6,6 @@ CREATE TABLE IF NOT EXISTS usuarios (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
+
+ALTER TABLE usuarios ADD COLUMN provider VARCHAR(20) DEFAULT 'local';
+ALTER TABLE usuarios ALTER COLUMN password DROP NOT NULL;

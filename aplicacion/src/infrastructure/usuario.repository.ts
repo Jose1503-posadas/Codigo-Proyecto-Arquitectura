@@ -25,4 +25,22 @@ export default {
     const result = await db.query(query, values);
     return result.rows[0];
   },
+
+  async saveGoogleUser(usuario: Usuario) {
+    const query = `
+      INSERT INTO usuarios (nombre, apellido, email, password, provider)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING id, nombre, apellido, email, provider, created_at
+    `;
+    const values = [
+      usuario.nombre,
+      usuario.apellido,
+      usuario.email,
+      null,         // sin password
+      'google'      // provider
+    ];
+    const result = await db.query(query, values);
+    return result.rows[0];
+  },
+
 };
