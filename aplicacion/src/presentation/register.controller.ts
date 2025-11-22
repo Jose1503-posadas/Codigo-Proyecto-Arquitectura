@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Res, HttpStatus } from '@nestjs/common';
 import type { Response } from 'express';
 import registerUserUseCase from '../application/registerUser.usecase';
+import { generateToken } from '../application/generateToken';
 
 interface RegisterBody {
   nombre: string;
@@ -15,7 +16,16 @@ export class RegisterController {
   async register(@Body() body: RegisterBody, @Res() res: Response) {
     try {
       const result = await registerUserUseCase.execute(body);
-      return res.status(HttpStatus.CREATED).json(result);
+
+      // ✔ Generar token inmediatamente después de registrar
+      const token = generateToken(result.user);
+
+      return res.status(HttpStatus.CREATED).json({
+        message: "Registro exitoso",
+        token,
+        user: result.user,
+      });
+
     } catch (err: any) {
       return res.status(HttpStatus.BAD_REQUEST).json({ error: err.message });
     }

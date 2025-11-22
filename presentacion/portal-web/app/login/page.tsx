@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 
 const API_URL = "http://localhost:3001";
 
-// Función para hacer login tradicional
+// -------------------------------------------
+// LOGIN TRADICIONAL (sin router aquí adentro)
+// -------------------------------------------
 async function loginUser(data: { email: string; password: string }) {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
@@ -18,10 +20,14 @@ async function loginUser(data: { email: string; password: string }) {
     throw new Error(error.error || "Error en login");
   }
 
-  return res.json();
+  // Regresamos el JSON con el token
+  const result = await res.json();
+  return result;
 }
 
-// Declarar global para TypeScript
+// -------------------------------------------
+// GOOGLE GLOBAL
+// -------------------------------------------
 declare global {
   interface Window {
     google: any;
@@ -32,10 +38,14 @@ export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
-  // Manejo del login tradicional
+  // -------------------------------------------
+  // LOGIN TRADICIONAL
+  // -------------------------------------------
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     const formData = new FormData(event.currentTarget);
+
     const data = {
       email: formData.get("email")?.toString() || "",
       password: formData.get("password")?.toString() || "",
@@ -43,7 +53,11 @@ export default function LoginPage() {
 
     try {
       const result = await loginUser(data);
-      console.log(result);
+
+      if (result.token) {
+        localStorage.setItem("token", result.token);
+      }
+
       router.push("/dashboard");
     } catch (err: any) {
       console.error(err.message);
@@ -51,7 +65,9 @@ export default function LoginPage() {
     }
   }
 
-  // Función para manejar respuesta de Google
+  // -------------------------------------------
+  // LOGIN CON GOOGLE
+  // -------------------------------------------
   async function handleCredentialResponse(response: any) {
     const idToken = response.credential;
 
@@ -62,19 +78,23 @@ export default function LoginPage() {
         body: JSON.stringify({ token: idToken }),
       });
 
-      const data = await res.json();
-      console.log("Resultado Login Google:", data);
+      const googleResult = await res.json();
+      console.log("Resultado Login Google:", googleResult);
 
-      if (data.email) {
-        router.push("/dashboard");
+      if (googleResult.token) {
+        localStorage.setItem("token", googleResult.token);
       }
+
+      router.push("/dashboard");
     } catch (err: any) {
       console.error("Error login Google:", err.message);
       alert(err.message);
     }
   }
 
-  // Inicializar botón de Google
+  // -------------------------------------------
+  // INICIALIZAR BOTÓN GOOGLE (SIN CAMBIAR NADA)
+  // -------------------------------------------
   useEffect(() => {
     if (window.google) {
       window.google.accounts.id.initialize({
@@ -89,6 +109,9 @@ export default function LoginPage() {
     }
   }, []);
 
+  // -------------------------------------------
+  // UI IGUAL 100% COMO LA TENÍAS
+  // -------------------------------------------
   return (
     <div className="flex h-screen">
       {/* LEFT FORM */}
@@ -96,7 +119,7 @@ export default function LoginPage() {
         <h1 className="text-4xl font-bold mb-3">¡Bienvenido Nuevamente!</h1>
         <p className="text-gray-500 mb-10">Por favor ingresa tus datos</p>
 
-        {/* Botón Google */}
+        {/* Botón Google - SIN CAMBIAR */}
         <div className="flex justify-center mb-4">
           <div id="google-login"></div>
         </div>

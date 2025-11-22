@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const API_URL = "http://localhost:3001";
 
@@ -26,6 +27,8 @@ async function registerUser(data: {
 }
 
 export default function RegisterPage() {
+  const router = useRouter();
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -65,7 +68,16 @@ export default function RegisterPage() {
     if (data.error) {
       setError(data.error);
     } else {
-      setSuccess("Inicio de sesión con Google exitoso");
+      // Guardar token si existe
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+      //setSuccess("Inicio de sesión con Google exitoso");
+
+      // Redirigir al dashboard
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 500);
     }
   }
 
@@ -93,8 +105,18 @@ export default function RegisterPage() {
 
     try {
       const result = await registerUser(data);
-      setSuccess(result.message);
-      setError("");
+
+      // Guardar token si viene del backend
+      if (result.token) {
+        localStorage.setItem("token", result.token);
+      }
+
+      //setSuccess(result.message || "Registro exitoso");
+
+      // Redirigir al dashboard
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 500);
     } catch (err: any) {
       setError(err.message);
       setSuccess("");
@@ -112,10 +134,7 @@ export default function RegisterPage() {
 
         {/* Botón Google */}
         <div className="flex justify-center">
-          <button
-            id="google-login"
-            className="gsi-material-button"
-          >
+          <button id="google-login" className="gsi-material-button">
             <div className="gsi-material-button-state"></div>
             <div className="gsi-material-button-content-wrapper">
               <div className="gsi-material-button-icon">
