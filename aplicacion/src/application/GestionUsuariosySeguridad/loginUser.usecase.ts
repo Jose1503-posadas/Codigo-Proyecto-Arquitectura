@@ -1,4 +1,4 @@
-import usuarioRepository from '../infrastructure/usuario.repository';
+import usuarioRepository from '../../infrastructure/GestionUsuariosySeguridad/usuario.repository';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 

@@ -1,8 +1,8 @@
 // src/presentation/userAccount.controller.ts
 import { Controller, Delete, Req, UseGuards, Res, HttpStatus } from "@nestjs/common";
-import { DeleteUserUseCase } from "../application/deleteUser.usecase";
+import { DeleteUserUseCase } from "../../application/GestionUsuariosySeguridad/deleteUser.usecase";
 import { AuthGuard } from "./auth.guard";
-import { EventPublisher } from "../infrastructure/event.publisher";
+import { EventPublisher } from "../../infrastructure/GestionUsuariosySeguridad/event.publisher";
 import type { Response } from "express";
 import type { AuthRequest } from "./auth-request.interface";
 

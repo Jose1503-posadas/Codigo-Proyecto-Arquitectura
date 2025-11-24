@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
-import usuarioRepository from "../infrastructure/usuario.repository";
-import resetCodeRepository from "../infrastructure/resetCode.repository";
-import { db } from "../infrastructure/db";
+import usuarioRepository from "../../infrastructure/GestionUsuariosySeguridad/usuario.repository";
+import resetCodeRepository from "../../infrastructure/GestionUsuariosySeguridad/resetCode.repository";
+import { db } from "../../infrastructure/db";
 
 const resetPasswordUseCase = {
   async execute(code: string, newPassword: string) {

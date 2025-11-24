@@ -1,6 +1,6 @@
-import { db } from './db';
+import { db } from '../db';
 import bcrypt from 'bcrypt';
-import type Usuario from '../domain/usuario.entity';
+import type Usuario from '../../domain/GestionUsuariosySeguridad/usuario.entity';
 
 const usuarioRepository = {
   async findByEmail(email: string) {

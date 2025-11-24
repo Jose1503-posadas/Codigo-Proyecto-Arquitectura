@@ -1,5 +1,5 @@
-import Perfil from "../domain/perfil.entity";
-import perfilRepo from "../infrastructure/perfil.repository";
+import Perfil from "../../domain/GestionUsuariosySeguridad/perfil.entity";
+import perfilRepo from "../../infrastructure/GestionUsuariosySeguridad/perfil.repository";
 
 export default class UpdatePerfilUseCase {
   async execute(usuarioId: number, data: any) {

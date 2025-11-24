@@ -1,8 +1,8 @@
 // presentation/perfil.controller.ts
 import { Controller, Get, Patch, Body, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
-import GetPerfilUseCase from '../application/getPerfil.usecase';
-import UpdatePerfilUseCase from '../application/updatePerfil.usecase';
+import GetPerfilUseCase from '../../application/GestionUsuariosySeguridad/getPerfil.usecase';
+import UpdatePerfilUseCase from '../../application/GestionUsuariosySeguridad/updatePerfil.usecase';
 
 
 @Controller('perfil') // rutas: /perfil

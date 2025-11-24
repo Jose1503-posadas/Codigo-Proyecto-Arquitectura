@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import usuarioRepository from '../infrastructure/usuario.repository';
-import perfilRepository from '../infrastructure/perfil.repository';
+import usuarioRepository from '../../infrastructure/GestionUsuariosySeguridad/usuario.repository';
+import perfilRepository from '../../infrastructure/GestionUsuariosySeguridad/perfil.repository';
 
 @Injectable()
 export class DeleteUserUseCase {

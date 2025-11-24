@@ -1,29 +1,29 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
-import { LoginController } from './presentation/login.controller';
-import { RegisterController } from './presentation/register.controller';
-import { GoogleLoginController } from './presentation/authGoogle.controller';
-import { UserAccountController } from './presentation/userAccount.controller';
-import { PerfilController } from './presentation/perfil.controller';
-import { MeController } from './presentation/me.controller';
-import { ForgotPasswordController } from './presentation/forgotPassword.controller';
-import { ResetPasswordController } from './presentation/resetPassword.controller';
-import { LogoutController } from './presentation/logout.controller';
-import { AuthGuard } from './presentation/auth.guard';
+import { LoginController } from './presentation/GestionUsuariosySeguridad/login.controller';
+import { RegisterController } from './presentation/GestionUsuariosySeguridad/register.controller';
+import { GoogleLoginController } from './presentation/GestionUsuariosySeguridad/authGoogle.controller';
+import { UserAccountController } from './presentation/GestionUsuariosySeguridad/userAccount.controller';
+import { PerfilController } from './presentation/GestionUsuariosySeguridad/perfil.controller';
+import { MeController } from './presentation/GestionUsuariosySeguridad/me.controller';
+import { ForgotPasswordController } from './presentation/GestionUsuariosySeguridad/forgotPassword.controller';
+import { ResetPasswordController } from './presentation/GestionUsuariosySeguridad/resetPassword.controller';
+import { LogoutController } from './presentation/GestionUsuariosySeguridad/logout.controller';
+import { AuthGuard } from './presentation/GestionUsuariosySeguridad/auth.guard';
 
 
-import { GoogleService } from './infrastructure/google.service';
-import { EventSubscriber } from './infrastructure/event.subscriber';
-import { EventPublisher } from './infrastructure/event.publisher';
+import { GoogleService } from './infrastructure/GestionUsuariosySeguridad/google.service';
+import { EventSubscriber } from './infrastructure/GestionUsuariosySeguridad/event.subscriber';
+import { EventPublisher } from './infrastructure/GestionUsuariosySeguridad/event.publisher';
 
 
-import usuarioRepository from './infrastructure/usuario.repository';
-import perfilRepository from './infrastructure/perfil.repository';
+import usuarioRepository from './infrastructure/GestionUsuariosySeguridad/usuario.repository';
+import perfilRepository from './infrastructure/GestionUsuariosySeguridad/perfil.repository';
 
-import { GetPerfilUseCase } from './application/getPerfil.usecase';
-import UpdatePerfilUseCase  from './application/updatePerfil.usecase';
-import { DeleteUserUseCase } from './application/deleteUser.usecase';
+import { GetPerfilUseCase } from './application/GestionUsuariosySeguridad/getPerfil.usecase';
+import UpdatePerfilUseCase  from './application/GestionUsuariosySeguridad/updatePerfil.usecase';
+import { DeleteUserUseCase } from './application/GestionUsuariosySeguridad/deleteUser.usecase';
 
 @Module({
   imports: [

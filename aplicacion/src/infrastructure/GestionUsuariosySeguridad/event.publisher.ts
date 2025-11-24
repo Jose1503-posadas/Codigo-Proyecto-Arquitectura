@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { UserEventPayload } from '../domain/userevent.payload';
+import { UserEventPayload } from '../../domain/GestionUsuariosySeguridad/userevent.payload';
 
 @Injectable()
 export class EventPublisher {

@@ -1,9 +1,9 @@
 // src/presentation/authGoogle.controller.ts
 import { Controller, Post, Body, Res, HttpStatus, Req } from '@nestjs/common';
 import type { Response, Request } from 'express';
-import loginWithGoogleUseCase from '../application/googleLogin.usecase';
-import { generateToken } from '../application/generateToken';
-import { EventPublisher } from '../infrastructure/event.publisher';
+import loginWithGoogleUseCase from '../../application/GestionUsuariosySeguridad/googleLogin.usecase';
+import { generateToken } from '../../application/GestionUsuariosySeguridad/generateToken';
+import { EventPublisher } from '../../infrastructure/GestionUsuariosySeguridad/event.publisher';
 //import { AuthRequest } from './auth-request.interface';
 
 @Controller('auth')

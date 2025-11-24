@@ -1,6 +1,6 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
-import usuarioRepository from '../infrastructure/usuario.repository';
+import usuarioRepository from '../../infrastructure/GestionUsuariosySeguridad/usuario.repository';
 
 @Controller('auth')
 export class MeController {

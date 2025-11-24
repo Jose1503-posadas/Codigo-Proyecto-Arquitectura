@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Res, HttpStatus, Req } from '@nestjs/common';
 import type { Response, Request } from 'express';
-import loginUserUseCase from '../application/loginUser.usecase';
-import { generateToken } from '../application/generateToken';
-import { EventPublisher } from '../infrastructure/event.publisher'; // <-- importamos el publicador
+import loginUserUseCase from '../../application/GestionUsuariosySeguridad/loginUser.usecase';
+import { generateToken } from '../../application/GestionUsuariosySeguridad/generateToken';
+import { EventPublisher } from '../../infrastructure/GestionUsuariosySeguridad/event.publisher'; // <-- importamos el publicador
 
 interface LoginBody {
   email: string;

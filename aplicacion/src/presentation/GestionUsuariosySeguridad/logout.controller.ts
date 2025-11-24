@@ -1,6 +1,6 @@
 import { Controller, Post, Req, Res, HttpStatus, UseGuards } from '@nestjs/common';
 import type { Response } from 'express';
-import { EventPublisher } from '../infrastructure/event.publisher';
+import { EventPublisher } from '../../infrastructure/GestionUsuariosySeguridad/event.publisher';
 import { AuthGuard } from './auth.guard';
 import type { AuthRequest } from './auth-request.interface';
 

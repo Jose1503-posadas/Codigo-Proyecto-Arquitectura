@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Res, HttpStatus } from '@nestjs/common';
 import type { Response } from 'express';
-import registerUserUseCase from '../application/registerUser.usecase';
-import { generateToken } from '../application/generateToken';
-import { EventPublisher } from '../infrastructure/event.publisher';
+import registerUserUseCase from '../../application/GestionUsuariosySeguridad/registerUser.usecase';
+import { generateToken } from '../../application/GestionUsuariosySeguridad/generateToken';
+import { EventPublisher } from '../../infrastructure/GestionUsuariosySeguridad/event.publisher';
 
 interface RegisterBody {
   nombre: string;

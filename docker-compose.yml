@@ -51,6 +51,7 @@ services:
       - "5432:5432"
     volumes:
       - codigo-proyecto-arquitectura_pg_data:/var/lib/postgresql/data
+      - ./datos:/docker-entrypoint-initdb.d
     networks:
       - app-network
   

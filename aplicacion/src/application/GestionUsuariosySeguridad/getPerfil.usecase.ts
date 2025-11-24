@@ -1,5 +1,5 @@
-import usuarioRepository from '../infrastructure/usuario.repository';
-import perfilRepository from '../infrastructure/perfil.repository';
+import usuarioRepository from '../../infrastructure/GestionUsuariosySeguridad/usuario.repository';
+import perfilRepository from '../../infrastructure/GestionUsuariosySeguridad/perfil.repository';
 
 export class GetPerfilUseCase {
   async execute(usuarioId: number) {

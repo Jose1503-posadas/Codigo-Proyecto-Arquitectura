@@ -2,10 +2,10 @@
 import { Controller, Post, Body, Res, HttpStatus } from '@nestjs/common';
 import type { Response } from 'express';
 import bcrypt from 'bcrypt';
-import resetCodeRepository from '../infrastructure/resetCode.repository';
-import usuarioRepository from '../infrastructure/usuario.repository';
-import { db } from '../infrastructure/db';
-import { EventPublisher } from '../infrastructure/event.publisher';
+import resetCodeRepository from '../../infrastructure/GestionUsuariosySeguridad/resetCode.repository';
+import usuarioRepository from '../../infrastructure/GestionUsuariosySeguridad/usuario.repository';
+import { db } from '../../infrastructure/db';
+import { EventPublisher } from '../../infrastructure/GestionUsuariosySeguridad/event.publisher';
 
 @Controller('auth')
 export class ResetPasswordController {

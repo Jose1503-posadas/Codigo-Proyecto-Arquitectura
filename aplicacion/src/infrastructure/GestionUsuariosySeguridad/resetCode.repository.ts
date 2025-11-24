@@ -1,4 +1,4 @@
-import { db } from './db';
+import { db } from '../db';
 
 const resetCodeRepository = {
   async save(email: string, code: string, expiresAt: Date) {

@@ -1,6 +1,6 @@
 // src/application/registerUser.usecase.ts
-import Usuario from '../domain/usuario.entity';
-import usuarioRepository from '../infrastructure/usuario.repository';
+import Usuario from '../../domain/GestionUsuariosySeguridad/usuario.entity';
+import usuarioRepository from '../../infrastructure/GestionUsuariosySeguridad/usuario.repository';
 
 const registerUserUseCase = {
   async execute({ nombre, apellido, email, password }: any) {

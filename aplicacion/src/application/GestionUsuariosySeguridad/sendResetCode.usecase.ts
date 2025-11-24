@@ -1,7 +1,7 @@
-import usuarioRepository from "../infrastructure/usuario.repository";
-import resetCodeRepository from "../infrastructure/resetCode.repository";
-import { emailService } from '../infrastructure/email.service';
-import ResetCode from "../domain/reset-code.entity";
+import usuarioRepository from "../../infrastructure/GestionUsuariosySeguridad/usuario.repository";
+import resetCodeRepository from "../../infrastructure/GestionUsuariosySeguridad/resetCode.repository";
+import { emailService } from '../../infrastructure/GestionUsuariosySeguridad/email.service';
+import ResetCode from "../../domain/GestionUsuariosySeguridad/reset-code.entity";
 
 function generateRandomCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();

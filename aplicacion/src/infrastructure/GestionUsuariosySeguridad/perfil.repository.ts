@@ -1,7 +1,7 @@
 // infrastructure/perfil.repository.ts
 import { Injectable } from "@nestjs/common";
-import { db } from "./db";
-import Perfil from "../domain/perfil.entity";
+import { db } from "../db";
+import Perfil from "../../domain/GestionUsuariosySeguridad/perfil.entity";
 
 const perfilRepository = {
   async findByUserId(usuarioId: number) {

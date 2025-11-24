@@ -1,7 +1,7 @@
 // src/application/googleLogin.usecase.ts
-import usuarioRepository from '../infrastructure/usuario.repository';
-import { GoogleService } from '../infrastructure/google.service';
-import Usuario from '../domain/usuario.entity';
+import usuarioRepository from '../../infrastructure/GestionUsuariosySeguridad/usuario.repository';
+import { GoogleService } from '../../infrastructure/GestionUsuariosySeguridad/google.service';
+import Usuario from '../../domain/GestionUsuariosySeguridad/usuario.entity';
 
 const googleService = new GoogleService();
 

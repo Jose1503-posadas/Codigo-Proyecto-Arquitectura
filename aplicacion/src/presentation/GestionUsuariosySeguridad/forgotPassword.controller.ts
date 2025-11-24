@@ -1,9 +1,9 @@
 // src/presentation/forgotPassword.controller.ts
 import { Controller, Post, Body, Res, HttpStatus } from "@nestjs/common";
 import type { Response } from "express";
-import sendResetCodeUseCase from "../application/sendResetCode.usecase";
-import { EventPublisher } from "../infrastructure/event.publisher";
-import usuarioRepository from "../infrastructure/usuario.repository";
+import sendResetCodeUseCase from "../../application/GestionUsuariosySeguridad/sendResetCode.usecase";
+import { EventPublisher } from "../../infrastructure/GestionUsuariosySeguridad/event.publisher";
+import usuarioRepository from "../../infrastructure/GestionUsuariosySeguridad/usuario.repository";
 
 @Controller("auth")
 export class ForgotPasswordController {
