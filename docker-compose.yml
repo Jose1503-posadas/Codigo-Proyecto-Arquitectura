@@ -20,6 +20,8 @@ services:
 
   backend:
     build: ./aplicacion
+    env_file:
+        - ./aplicacion/.env
     ports:
       - "3001:3001"
     environment:
@@ -27,7 +29,7 @@ services:
       DATABASE_PORT: 5432
       DATABASE_USER: postgres
       DATABASE_PASSWORD: postgres
-      DATABASE_NAME: erp
+      DATABASE_NAME: erp    
     depends_on:
       - postgres
     volumes:
@@ -51,6 +53,18 @@ services:
       - codigo-proyecto-arquitectura_pg_data:/var/lib/postgresql/data
     networks:
       - app-network
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - app-network
+
 
 volumes:
   codigo-proyecto-arquitectura_pg_data:

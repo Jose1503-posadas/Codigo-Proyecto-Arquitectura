@@ -39,8 +39,3 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 Checar bd 
 
 `docker exec -it postgres psql -U postgres -d erp`
-
-cliente google 40789846614-ug7kj6fjvleqb76obqn3mn2rmllu0vqk.apps.googleusercontent.com
-
-Secreto del cliente 
-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

@@ -60,10 +60,19 @@ export default function PerfilPage() {
   // -------------------------------
   // Cerrar sesión
   // -------------------------------
-  const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  };
+  const logout = async () => {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  await fetch("http://localhost:3001/auth/logout", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  localStorage.removeItem("token");
+  window.location.href = "/login";
+};
+
 
   // -------------------------------
   // Eliminar cuenta
@@ -79,6 +88,7 @@ export default function PerfilPage() {
     localStorage.removeItem("token");
     window.location.href = "/login";
   };
+  
 
   if (!user) return <p className="text-center mt-10">Cargando...</p>;
 

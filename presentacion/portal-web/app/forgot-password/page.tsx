@@ -1,33 +1,67 @@
+// pages/forgot-password/page.tsx
+"use client";
+
+import { useState } from "react";
+
+const API_URL = "http://localhost:3001";
+
 export default function ForgotPasswordPage() {
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email")?.toString() || "";
+
+    setLoading(true);
+
+    const res = await fetch(`${API_URL}/auth/forgot-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    const result = await res.json();
+    setLoading(false);
+
+    if (!res.ok) {
+      alert(result.error);
+      return;
+    }
+
+    alert("Te enviamos un código a tu correo.");
+  }
+
   return (
     <div className="flex h-screen">
-      {/* LEFT FORM */}
       <div className="flex flex-col justify-center p-20 w-1/2">
         <h1 className="text-4xl font-bold mb-3">Recuperar contraseña</h1>
         <p className="text-gray-500 mb-10">
-          Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña
+          Ingresa tu correo y te enviaremos un código para restablecer tu contraseña.
         </p>
 
-        <form action="/api/forgot-password" method="POST" className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="email"
             name="email"
-            placeholder="Correo electrónico"
+            placeholder="Tu correo"
             className="border rounded-lg p-3"
           />
 
-          <button className="bg-black text-white py-3 rounded-lg">
-            Enviar enlace
+          <button
+            className="bg-black text-white py-3 rounded-lg"
+            disabled={loading}
+          >
+            {loading ? "Enviando..." : "Enviar código"}
           </button>
         </form>
 
         <div className="mt-6 text-sm">
-          ¿Recuerdas tu contraseña?{" "}
-          <a href="/login" className="text-blue-600">Inicia sesión</a>
+          ¿Ya tienes cuenta? <a href="/login" className="text-blue-600">Inicia sesión</a>
         </div>
       </div>
 
-      {/* RIGHT IMAGE BLOCK */}
       <div className="w-1/2 hidden md:block">
         <img
           src="/images/reset-password.jpg"
