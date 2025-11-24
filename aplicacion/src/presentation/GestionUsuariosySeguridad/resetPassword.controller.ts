@@ -17,6 +17,7 @@ export class ResetPasswordController {
     @Body('password') newPassword: string,
     @Res() res: Response,
   ) {
+    console.log(`🟦 Petición atendida por: ${process.env.BACKEND_NAME}`);
     try {
       // 1️⃣ Buscar el código de reseteo
       const record = await resetCodeRepository.find(code);

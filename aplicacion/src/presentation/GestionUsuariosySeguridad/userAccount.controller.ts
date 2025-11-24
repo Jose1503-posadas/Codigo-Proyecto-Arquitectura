@@ -16,6 +16,7 @@ export class UserAccountController {
   @UseGuards(AuthGuard)
   @Delete("delete")
   async delete(@Req() req: AuthRequest, @Res() res: Response) {
+    console.log(`🟦 Petición atendida por: ${process.env.BACKEND_NAME}`);
     try {
       const userIdNumber = Number(req.user.id); // number para el caso de uso
       const userIdString = req.user.id;         // string para el evento

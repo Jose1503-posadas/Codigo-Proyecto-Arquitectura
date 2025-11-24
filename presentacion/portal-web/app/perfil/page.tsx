@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 export default function PerfilPage() {
   const [user, setUser] = useState<any>(null);
@@ -21,7 +23,7 @@ export default function PerfilPage() {
   const token = localStorage.getItem("token");
   if (!token) return;
 
-  fetch("http://localhost:3001/perfil", {
+  fetch(`${API_URL}/perfil`, {
     headers: { Authorization: `Bearer ${token}` },
   })
     .then((res) => res.json())
@@ -43,7 +45,7 @@ export default function PerfilPage() {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    const res = await fetch("http://localhost:3001/perfil", {
+    const res = await fetch(`${API_URL}/perfil`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +66,7 @@ export default function PerfilPage() {
   const token = localStorage.getItem("token");
   if (!token) return;
 
-  await fetch("http://localhost:3001/auth/logout", {
+  await fetch(`${API_URL}/auth/logout`, {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -80,7 +82,7 @@ export default function PerfilPage() {
   const deleteAccount = async () => {
     const token = localStorage.getItem("token");
 
-    await fetch("http://localhost:3001/DeleteUser/delete", {
+    await fetch(`${API_URL}/DeleteUser/delete`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

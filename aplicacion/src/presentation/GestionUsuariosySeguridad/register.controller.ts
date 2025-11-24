@@ -17,6 +17,7 @@ export class RegisterController {
 
   @Post('register')
   async register(@Body() body: RegisterBody, @Res() res: Response) {
+    console.log(`🟦 Petición atendida por: ${process.env.BACKEND_NAME}`);
     try {
       const result = await registerUserUseCase.execute(body);
 

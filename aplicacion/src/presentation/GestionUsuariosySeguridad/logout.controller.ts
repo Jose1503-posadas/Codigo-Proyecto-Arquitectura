@@ -12,7 +12,7 @@ export class LogoutController {
   @Post('logout')
   async logout(@Req() req: AuthRequest, @Res() res: Response) {
     const user = req.user;
-
+    console.log(`🟦 Petición atendida por: ${process.env.BACKEND_NAME}`);
     await this.eventPublisher.publishLogout(
       { id: user.id, email: user.email },
       'web',      // fuente

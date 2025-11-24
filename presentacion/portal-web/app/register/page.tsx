@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const API_URL = "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Función para registrar usuario
 async function registerUser(data: {
@@ -56,7 +56,7 @@ export default function RegisterPage() {
   async function handleCredentialResponse(response: any) {
     const idToken = response.credential;
 
-    const res = await fetch("http://localhost:3001/auth/google", {
+    const res = await fetch(`${API_URL}/auth/google`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: idToken }),

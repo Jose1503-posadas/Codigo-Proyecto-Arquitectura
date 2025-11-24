@@ -15,6 +15,7 @@ export class LoginController {
 
   @Post('login')
   async login(@Body() body: LoginBody, @Res() res: Response, @Req() req: Request) {
+    console.log(`🟦 Petición atendida por: ${process.env.BACKEND_NAME}`);
     try {
       const result = await loginUserUseCase.execute(body);
 

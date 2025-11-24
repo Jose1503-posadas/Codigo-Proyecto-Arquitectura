@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const API_URL = "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // -------------------------------------------
 // LOGIN TRADICIONAL (sin router aquí adentro)

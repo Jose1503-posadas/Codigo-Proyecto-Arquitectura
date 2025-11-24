@@ -19,8 +19,10 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices(); // Importante para que los EventPattern funcionen
-  await app.listen(3001);
+  await app.listen(3001, '0.0.0.0');
 
   console.log('Auth API running on port 3001');
+  console.log("Starting backend:", process.env.BACKEND_NAME);
+  
 }
 bootstrap();

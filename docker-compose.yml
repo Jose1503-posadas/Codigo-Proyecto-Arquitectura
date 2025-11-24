@@ -6,11 +6,12 @@ services:
       context: ./presentacion/portal-web
       dockerfile: Dockerfile
     environment:
-      NEXT_PUBLIC_API_URL: "http://backend:3001"
+      NEXT_PUBLIC_API_URL: "http://localhost:8080"
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      - backend1
+      - backend2
     volumes:
       - ./presentacion/portal-web:/app
       - /app/node_modules
@@ -18,24 +19,51 @@ services:
     networks:
       - app-network
 
-  backend:
+  backend1:
     build: ./aplicacion
     env_file:
-        - ./aplicacion/.env
-    ports:
-      - "3001:3001"
+      - ./aplicacion/.env
     environment:
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432
       DATABASE_USER: postgres
       DATABASE_PASSWORD: postgres
-      DATABASE_NAME: erp    
-    depends_on:
-      - postgres
+      DATABASE_NAME: erp
+      BACKEND_NAME: backend1  
     volumes:
       - ./aplicacion:/app
       - /app/node_modules
     command: npm run start:dev
+    networks:
+      - app-network
+
+  backend2:
+    build: ./aplicacion
+    env_file:
+      - ./aplicacion/.env
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: erp 
+      BACKEND_NAME: backend2    
+    volumes:
+      - ./aplicacion:/app
+      - /app/node_modules
+    command: npm run start:dev
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend1
+      - backend2
     networks:
       - app-network
 
@@ -65,7 +93,6 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     networks:
       - app-network
-
 
 volumes:
   codigo-proyecto-arquitectura_pg_data:
